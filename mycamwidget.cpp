@@ -31,6 +31,7 @@ MyCamWidget::MyCamWidget(QWidget *parent) : QWidget(parent)
     setWindowTitle("Welcom to Camera Widget");
     ImgPath = qEnvironmentVariable("HOME") + QString("/Image");
     capture = new VideoCapture(0);
+    Btn_setting = new QPushButton(this);
     Btn_camStart = new QPushButton(this);
     Btn_close = new QPushButton(this);
     imgSavePathtip = new QLabel(this);
@@ -41,6 +42,8 @@ MyCamWidget::MyCamWidget(QWidget *parent) : QWidget(parent)
     timer = new QTimer(this);
     setting_init();
     connect_init();
+//    srcMat = new Mat();
+//    dstMat = new Mat();
 }
 
 MyCamWidget::~MyCamWidget()
@@ -66,11 +69,14 @@ void MyCamWidget::setting_init()
     Btn_dirOpen->setText("OpenDir");
     Btn_dirOpen->move(330,10);
     Btn_dirOpen->resize(50,30);
+    Btn_setting->resize(65,30);
+    Btn_setting->move(330,170);
+    Btn_setting->setText(QString("Setting"));
     Btn_camStart->resize(65,30);
-    Btn_camStart->move(330,250);
+    Btn_camStart->move(330,210);
     Btn_camStart->setText(QString("GET START"));
     Btn_close->resize(65,30);
-    Btn_close->move(330,210);
+    Btn_close->move(330,250);
     Btn_close->setText(QString("CLOSE"));
     camLabel->move(5,45);
     camLabel->resize(320,240);
@@ -84,14 +90,12 @@ void MyCamWidget::camShow()
         qDebug() << "ERROR!Unable to open camera\n";
         return;
     }
-    Mat srcMat,dstMat;
     capture->read(srcMat);
     if(srcMat.empty()){
         qDebug() << "ERROR!blank frame grabbed\n";
         //break;
     }
     cvtColor(srcMat,dstMat,COLOR_BGR2RGB);
-    dstMat.resize(320,240);
     *qImg = QImage((const unsigned char*)(dstMat.data), dstMat.cols, dstMat.rows, QImage::Format_RGB888);
     camLabel->setPixmap(QPixmap::fromImage(*qImg));
 }
@@ -106,7 +110,10 @@ void MyCamWidget::keyPressEvent(QKeyEvent *event)
     if(event -> key() == Qt::Key_Return)
     {
         if(camOpenSign)
-            qDebug() << "test________";
+        {
+            imshow("test",srcMat);
+            imwrite("Img.jpg",srcMat);
+        }
     }
 }
 

@@ -2,6 +2,7 @@
 #define MYCAMWIDGET_H
 
 #include <QWidget>
+#include <opencv2/opencv.hpp>
 //
 //use the QCamera class , but not work
 //
@@ -12,6 +13,7 @@ class QPushButton;
 class QLabel;
 class QLineEdit;
 class QImage;
+
 #include <opencv2/opencv.hpp>
 class MyCamWidget : public QWidget
 {
@@ -37,6 +39,7 @@ private:
 //    QCameraImageCapture *ImageCapture;
 
     cv::VideoCapture *capture;//to get the camera capture
+    QPushButton *Btn_setting;
     QPushButton *Btn_camStart;
     QPushButton *Btn_close;
     QPushButton *Btn_dirOpen;
@@ -47,6 +50,7 @@ private:
     QImage *qImg;
     QTimer *timer;
     bool camOpenSign = false;
+    cv::Mat srcMat,dstMat;
 
 };
 

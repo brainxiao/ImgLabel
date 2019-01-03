@@ -85,7 +85,14 @@
     <addaction name="action_Open"/>
     <addaction name="action_SaveDir"/>
    </widget>
+   <widget class="QMenu" name="menu_Setting">
+    <property name="title">
+     <string>&amp;Setting</string>
+    </property>
+    <addaction name="action_CameraSetting"/>
+   </widget>
    <addaction name="menu_File"/>
+   <addaction name="menu_Setting"/>
   </widget>
   <widget class="QToolBar" name="mainToolBar">
    <attribute name="toolBarArea">
@@ -104,6 +111,16 @@
   <action name="action_SaveDir">
    <property name="text">
     <string>&amp;SaveDir</string>
+   </property>
+  </action>
+  <action name="actionasd">
+   <property name="text">
+    <string>asd</string>
+   </property>
+  </action>
+  <action name="action_CameraSetting">
+   <property name="text">
+    <string>&amp;Camera</string>
    </property>
   </action>
  </widget>

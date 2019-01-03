@@ -29,6 +29,8 @@ class Ui_MainWindow
 public:
     QAction *action_Open;
     QAction *action_SaveDir;
+    QAction *actionasd;
+    QAction *action_CameraSetting;
     QWidget *centralWidget;
     QPushButton *Btn_pre;
     QPushButton *Btn_next;
@@ -36,6 +38,7 @@ public:
     QLabel *labelClassTip;
     QMenuBar *menuBar;
     QMenu *menu_File;
+    QMenu *menu_Setting;
     QToolBar *mainToolBar;
     QStatusBar *statusBar;
 
@@ -48,6 +51,10 @@ public:
         action_Open->setObjectName(QStringLiteral("action_Open"));
         action_SaveDir = new QAction(MainWindow);
         action_SaveDir->setObjectName(QStringLiteral("action_SaveDir"));
+        actionasd = new QAction(MainWindow);
+        actionasd->setObjectName(QStringLiteral("actionasd"));
+        action_CameraSetting = new QAction(MainWindow);
+        action_CameraSetting->setObjectName(QStringLiteral("action_CameraSetting"));
         centralWidget = new QWidget(MainWindow);
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
         Btn_pre = new QPushButton(centralWidget);
@@ -62,12 +69,15 @@ public:
         labelClassTip = new QLabel(centralWidget);
         labelClassTip->setObjectName(QStringLiteral("labelClassTip"));
         labelClassTip->setGeometry(QRect(560, 110, 71, 21));
+        labelClassTip->setStyleSheet(QStringLiteral(""));
         MainWindow->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(MainWindow);
         menuBar->setObjectName(QStringLiteral("menuBar"));
         menuBar->setGeometry(QRect(0, 0, 800, 21));
         menu_File = new QMenu(menuBar);
         menu_File->setObjectName(QStringLiteral("menu_File"));
+        menu_Setting = new QMenu(menuBar);
+        menu_Setting->setObjectName(QStringLiteral("menu_Setting"));
         MainWindow->setMenuBar(menuBar);
         mainToolBar = new QToolBar(MainWindow);
         mainToolBar->setObjectName(QStringLiteral("mainToolBar"));
@@ -77,10 +87,12 @@ public:
         MainWindow->setStatusBar(statusBar);
 
         menuBar->addAction(menu_File->menuAction());
+        menuBar->addAction(menu_Setting->menuAction());
         menu_File->addSeparator();
         menu_File->addSeparator();
         menu_File->addAction(action_Open);
         menu_File->addAction(action_SaveDir);
+        menu_Setting->addAction(action_CameraSetting);
 
         retranslateUi(MainWindow);
 
@@ -92,10 +104,13 @@ public:
         MainWindow->setWindowTitle(QApplication::translate("MainWindow", "MainWindow", nullptr));
         action_Open->setText(QApplication::translate("MainWindow", "&Open", nullptr));
         action_SaveDir->setText(QApplication::translate("MainWindow", "&SaveDir", nullptr));
+        actionasd->setText(QApplication::translate("MainWindow", "asd", nullptr));
+        action_CameraSetting->setText(QApplication::translate("MainWindow", "&Camera", nullptr));
         Btn_pre->setText(QApplication::translate("MainWindow", "PRE", nullptr));
         Btn_next->setText(QApplication::translate("MainWindow", "NEXT", nullptr));
         labelClassTip->setText(QApplication::translate("MainWindow", "Class Name:", nullptr));
         menu_File->setTitle(QApplication::translate("MainWindow", "&File", nullptr));
+        menu_Setting->setTitle(QApplication::translate("MainWindow", "&Setting", nullptr));
     } // retranslateUi
 
 };

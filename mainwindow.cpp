@@ -34,8 +34,10 @@ MainWindow::MainWindow(QWidget *parent) :
     action_camera->setToolTip(tr("open the camera"));
     imgLabel->move(90,90);
     imgLabel -> resize(416,416);
+    imgLabel->setStyleSheet("background-color: rgba(204, 213, 211, 150);");
     ui -> action_Open -> setIcon(*openIcon);
     ui -> action_SaveDir -> setIcon(*openIcon);
+    ui -> action_CameraSetting -> setIcon(*camIcon);
     ui -> mainToolBar -> addAction(action_save);
     ui -> mainToolBar -> addAction(action_camera);
     setWindowTitle(QString("Proundly Designed By Brain"));
@@ -210,9 +212,11 @@ void MainWindow::cameraSlot()
     connect(cam,SIGNAL(closeSignal()),this,SLOT(cameraCloseSlot()));//important
     cam->resize(400,300);
     cam->show();
+    hide();
 }
 
 void MainWindow::cameraCloseSlot()
 {
     delete cam;
+    show();
 }

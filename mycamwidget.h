@@ -28,6 +28,9 @@ private slots:
     void camShow();
     void on_close();
     void dirOpenSlot();
+    void LineEdit_Open_change_slot();
+    void LineEdit_ImgSize_change_slot();
+    void LineEdit_ImgName_change_slot();
 protected:
     void closeEvent(QCloseEvent *event);
     void keyPressEvent(QKeyEvent *event);
@@ -39,18 +42,24 @@ private:
 //    QCameraImageCapture *ImageCapture;
 
     cv::VideoCapture *capture;//to get the camera capture
-    QPushButton *Btn_setting;
     QPushButton *Btn_camStart;
     QPushButton *Btn_close;
     QPushButton *Btn_dirOpen;
     QLabel *imgSavePathtip;
-    QLineEdit *imgSavePath;
+    QLabel *ImgSizetip;
+    QLabel *ImgNametip;
+    QLineEdit *LineEdit_imgSavePath;
+    QLineEdit *LineEdit_ImgSize;
+    QLineEdit *LineEdit_ImgName;
     QString ImgPath;
+    QString ImgSize;
+    QString ImgName;
     QLabel *camLabel;
     QImage *qImg;
     QTimer *timer;
     bool camOpenSign = false;
     cv::Mat srcMat,dstMat;
+    int count = 1;
 
 };
 

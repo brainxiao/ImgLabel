@@ -31,11 +31,17 @@ MyCamWidget::MyCamWidget(QWidget *parent) : QWidget(parent)
     setWindowTitle("Welcom to Camera Widget");
     ImgPath = qEnvironmentVariable("HOME") + QString("/Image");
     capture = new VideoCapture(0);
-    Btn_setting = new QPushButton(this);
+    ImgSize = QString::number(capture->get(cv::CAP_PROP_FRAME_WIDTH)) +
+            QString(",") + QString::number(capture->get(CAP_PROP_FRAME_HEIGHT));
+    ImgName = QString("Image");
     Btn_camStart = new QPushButton(this);
     Btn_close = new QPushButton(this);
     imgSavePathtip = new QLabel(this);
-    imgSavePath = new QLineEdit(this);
+    LineEdit_imgSavePath = new QLineEdit(this);
+    LineEdit_ImgSize = new QLineEdit(this);
+    ImgSizetip = new QLabel(this);
+    LineEdit_ImgName = new QLineEdit(this);
+    ImgNametip = new QLabel(this);
     Btn_dirOpen = new QPushButton(this);
     camLabel = new QLabel(this);
     qImg = new QImage();
@@ -56,6 +62,9 @@ void MyCamWidget::connect_init()
     connect(Btn_camStart,&QPushButton::clicked,this,&MyCamWidget::CamSlot);
     connect(Btn_dirOpen,&QPushButton::clicked,this,&MyCamWidget::dirOpenSlot);
     connect(Btn_close,&QPushButton::clicked,this,&MyCamWidget::on_close);
+    connect(LineEdit_imgSavePath,&QLineEdit::textChanged,this,&MyCamWidget::LineEdit_Open_change_slot);
+    connect(LineEdit_ImgSize,&QLineEdit::textChanged,this,&MyCamWidget::LineEdit_ImgSize_change_slot);
+    connect(LineEdit_ImgName,&QLineEdit::textChanged,this,&MyCamWidget::LineEdit_ImgName_change_slot);
     connect(timer,SIGNAL(timeout()),this,SLOT(camShow()));
 }
 
@@ -63,21 +72,37 @@ void MyCamWidget::setting_init()
 {
     imgSavePathtip->setText("Image save Path:");
     imgSavePathtip->move(10,20);
-    imgSavePath->resize(215,30);
-    imgSavePath->move(110,10);
-    imgSavePath->setText(ImgPath);
+
+    LineEdit_imgSavePath->resize(215,30);
+    LineEdit_imgSavePath->move(110,10);
+    LineEdit_imgSavePath->setText(ImgPath);
+
+    ImgSizetip->setText("OutPut Size:");
+    ImgSizetip->move(330,55);
+
+    LineEdit_ImgSize->resize(80,30);
+    LineEdit_ImgSize->move(410,45);
+    LineEdit_ImgSize->setText(ImgSize);
+
+    ImgNametip->setText("OutPut Name:");
+    ImgNametip->move(330,95);
+
+    LineEdit_ImgName->resize(80,30);
+    LineEdit_ImgName->move(410,85);
+    LineEdit_ImgName->setText(ImgName);
+
     Btn_dirOpen->setText("OpenDir");
     Btn_dirOpen->move(330,10);
     Btn_dirOpen->resize(50,30);
-    Btn_setting->resize(65,30);
-    Btn_setting->move(330,170);
-    Btn_setting->setText(QString("Setting"));
+
     Btn_camStart->resize(65,30);
     Btn_camStart->move(330,210);
     Btn_camStart->setText(QString("GET START"));
+
     Btn_close->resize(65,30);
     Btn_close->move(330,250);
     Btn_close->setText(QString("CLOSE"));
+
     camLabel->move(5,45);
     camLabel->resize(320,240);
     camLabel->setStyleSheet("background-color: rgb(170, 85, 127);");
@@ -107,13 +132,17 @@ void MyCamWidget::closeEvent(QCloseEvent *event)
 
 void MyCamWidget::keyPressEvent(QKeyEvent *event)
 {
+    QString Name = ImgPath + QString("/") + ImgName + QString::number(count) + QString(".jpg");
     if(event -> key() == Qt::Key_Return)
     {
         if(camOpenSign)
         {
-            imshow("test",srcMat);
-            imwrite("Img.jpg",srcMat);
+            qDebug() << Name;
+            imshow("Picture you saved",srcMat);
+            imwrite(Name.toStdString(),srcMat);
+            setWindowTitle(Name);
         }
+        count++;
     }
 }
 
@@ -121,17 +150,31 @@ void MyCamWidget::CamSlot()
 {
     camOpenSign = true;
     timer->start(33);
-
 }
 
 void MyCamWidget::dirOpenSlot()
 {
     ImgPath = QFileDialog::getExistingDirectory(this,"please pick up a Dir",ImgPath);
-    imgSavePath->setText(ImgPath);
+    LineEdit_imgSavePath->setText(ImgPath);
 }
 
 void MyCamWidget::on_close()
 {
     camOpenSign = false;
     close();
+}
+
+void MyCamWidget::LineEdit_Open_change_slot()
+{
+    ImgPath = LineEdit_imgSavePath->text();
+}
+
+void MyCamWidget::LineEdit_ImgSize_change_slot()
+{
+    ImgSize = LineEdit_ImgSize->text();
+}
+
+void MyCamWidget::LineEdit_ImgName_change_slot()
+{
+    ImgName = LineEdit_ImgName->text();
 }

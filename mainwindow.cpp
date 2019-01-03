@@ -210,7 +210,7 @@ void MainWindow::cameraSlot()
 {
     cam = new MyCamWidget();
     connect(cam,SIGNAL(closeSignal()),this,SLOT(cameraCloseSlot()));//important
-    cam->resize(400,300);
+    cam->resize(500,300);
     cam->show();
     hide();
 }

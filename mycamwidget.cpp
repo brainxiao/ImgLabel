@@ -10,8 +10,10 @@
 #include <QImage>
 #include <opencv2/opencv.hpp>
 #include <QTimer>
+#include <QStringList>
 #include <QKeyEvent>
 #include <opencv2/highgui/highgui.hpp>
+#include <opencv2/imgproc.hpp>
 using namespace cv;
 MyCamWidget::MyCamWidget(QWidget *parent) : QWidget(parent)
 {
@@ -137,9 +139,18 @@ void MyCamWidget::keyPressEvent(QKeyEvent *event)
     {
         if(camOpenSign)
         {
-            qDebug() << Name;
+            int width,height;
+            Mat resizedMat;
+            QString temp;
+            QStringList strList = ImgSize.split(",");
+            temp = strList[0];
+            width = temp.toInt();
+            temp = strList[1];
+            height = temp.toInt();
+            qDebug() << Name << ImgSize << width << "  " << height;
+            cv::resize(srcMat,resizedMat,Size(width,height),0,0);
             imshow("Picture you saved",srcMat);
-            imwrite(Name.toStdString(),srcMat);
+            imwrite(Name.toStdString(),resizedMat);
             setWindowTitle(Name);
         }
         count++;

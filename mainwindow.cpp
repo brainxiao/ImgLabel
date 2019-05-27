@@ -23,15 +23,20 @@ MainWindow::MainWindow(QWidget *parent) :
     openIcon = new QIcon(":/open/open.png");
     saveIcon = new QIcon(":/save/save.png");
     camIcon = new QIcon(":/open/cam.jpg");
+    toolIcon = new QIcon(":/open/tool.jpeg");
     imgLabel = new MyLabel(this);
     action_save = new QAction(this);
     action_camera = new QAction(this);
+    action_tool = new QAction(this);
     action_save->setObjectName("action_save");
     action_camera->setObjectName("action_camera");
+    action_tool -> setObjectName("action_tool");
     action_save->setIcon(*saveIcon);
     action_camera->setIcon(*camIcon);
+    action_tool -> setIcon(*toolIcon);
     action_save->setToolTip(tr("Save the Label"));
     action_camera->setToolTip(tr("open the camera"));
+    action_tool -> setToolTip(tr("change the Image Name"));
     imgLabel->move(90,90);
     imgLabel -> resize(416,416);
     imgLabel->setStyleSheet("background-color: rgba(204, 213, 211, 150);");
@@ -40,6 +45,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui -> action_CameraSetting -> setIcon(*camIcon);
     ui -> mainToolBar -> addAction(action_save);
     ui -> mainToolBar -> addAction(action_camera);
+    ui -> mainToolBar -> addAction(action_tool);
     setWindowTitle(QString("Proundly Designed By Brain"));
     connect_init();
     ui -> lineEdit_class ->setText(className);
@@ -52,6 +58,7 @@ MainWindow::~MainWindow()
     delete openIcon;
     delete saveIcon;
     delete action_save;
+    delete action_tool;
 }
 
 void MainWindow::connect_init()
@@ -63,6 +70,7 @@ void MainWindow::connect_init()
     connect(ui ->Btn_pre,SIGNAL(clicked(bool)),this,SLOT(goToLast()));
     connect(this->action_save,SIGNAL(triggered(bool)),this,SLOT(writeLabel()));
     connect(this->action_camera,SIGNAL(triggered(bool)),this,SLOT(cameraSlot()));
+    connect(this->action_tool,SIGNAL(triggered(bool)),this,SLOT(toolSlot()));
 }
 
 void MainWindow::openFile()
@@ -219,4 +227,41 @@ void MainWindow::cameraCloseSlot()
 {
     delete cam;
     show();
+}
+
+void MainWindow::toolSlot()
+{
+    //qDebug() << "here is toolSlot";
+    QString ImageFileIn , newName;
+    QFile file(qEnvironmentVariable("HOME"));
+    if(!file.open(QIODevice::ReadWrite|QIODevice::Text|QIODevice::Append))
+    {
+        QMessageBox::warning(this,"file write","can't open",QMessageBox::Yes);
+    }
+    //
+    //get the directory path
+    //
+    ImageFileIn = QFileDialog::getExistingDirectory(this,tr("please pick up a Dir"),"/home/brain/");
+    QDir dir(ImageFileIn);
+    QStringList imageFilter , imageList;
+    imageFilter << "*.jpg" << "*.jpeg" << "*.png";
+    //
+    //get the file list
+    //
+    imageList = dir.entryList(imageFilter , QDir::Files|QDir::Readable, QDir::Name);
+    qDebug() << "__totally " << imageList.count() << "pictures.__" << endl;
+    for(int i = 0 ; i < imageList.count() ; )
+    {
+        ImageName = ImageFileIn + QString("/") + imageList[i];
+        QFileInfo imageInfo = imageList[i];
+        QString suffix = imageInfo.suffix();
+        ++i;
+        newName = ImageFileIn + QString("/")
+                + QString::number(i).sprintf("%06d" , i) + QString(".") + suffix;
+        qDebug() << ImageName << " " << newName << endl;
+        bool OK = QFile::rename(ImageName , newName);
+        if(!OK)
+            qDebug() << "change fail" << endl;
+        return;
+    }
 }

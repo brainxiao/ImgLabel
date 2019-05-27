@@ -38,8 +38,7 @@ FORMS += \
         mainwindow.ui
 
 # 导入opencv的路径
-INCLUDEPATH += /usr/local/include/opencv4
-
+INCLUDEPATH += /usr/local/include/
 # 导入opencv的完整库
 #LIBS += -L/usr/local/lib \
 #        -lopencv_highgui \

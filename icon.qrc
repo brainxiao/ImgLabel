@@ -3,6 +3,7 @@
     <qresource prefix="/open">
         <file>open.png</file>
         <file>cam.jpg</file>
+        <file>tool.jpeg</file>
     </qresource>
     <qresource prefix="/save">
         <file>save.png</file>

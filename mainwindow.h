@@ -27,6 +27,7 @@ protected:
 private slots:
     void cameraSlot();
     void cameraCloseSlot();
+    void toolSlot();
     void openFile();
     void saveFile();
     void getRect(QPoint p1,QPoint p2);
@@ -49,6 +50,7 @@ private:
     QIcon *openIcon;
     QIcon *saveIcon;
     QIcon *camIcon;
+    QIcon *toolIcon;
 
     QPoint point_1,point_2;
 
@@ -62,6 +64,7 @@ private:
 
     QAction *action_save;
     QAction *action_camera;
+    QAction *action_tool;
     MyCamWidget *cam;
 };
 

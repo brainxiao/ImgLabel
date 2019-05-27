@@ -17,7 +17,6 @@
 using namespace cv;
 MyCamWidget::MyCamWidget(QWidget *parent) : QWidget(parent)
 {
-
 //    QList<QCameraInfo> cam_list = QCameraInfo::availableCameras();
 //    if(cam_list.count() > 0){
 //        foreach (const QCameraInfo &cameraInfo, cam_list) {
@@ -32,7 +31,7 @@ MyCamWidget::MyCamWidget(QWidget *parent) : QWidget(parent)
 //    camera ->start();
     setWindowTitle("Welcom to Camera Widget");
     ImgPath = qEnvironmentVariable("HOME") + QString("/Image");
-    capture = new VideoCapture(0);
+    capture = new VideoCapture(1);
     ImgSize = QString::number(capture->get(cv::CAP_PROP_FRAME_WIDTH)) +
             QString(",") + QString::number(capture->get(CAP_PROP_FRAME_HEIGHT));
     ImgName = QString("Image");
